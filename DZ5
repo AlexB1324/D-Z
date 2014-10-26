@@ -1,0 +1,8 @@
+public class New6 {
+	public static void main(String[] args){
+		String example = "Hello World";
+		for(int h = 0; h<10; h++){
+			System.out.println(example);
+		}
+	}
+}
