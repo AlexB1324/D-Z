@@ -1,0 +1,13 @@
+D-Z
+public class New2 {
+	static New2 New2 = new New2();
+	String name;
+	int age;
+	public New2() {
+		this.name = "Alex";
+		this.age = 19;
+	}
+ public static void main(String[] args){
+	System.out.println(New2);
+ }
+}
