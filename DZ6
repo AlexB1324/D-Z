@@ -1,0 +1,37 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Scanner;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+
+public class New1 {
+	static JButton button;
+	
+	public static void main(String[] args) {
+		JFrame frame = new JFrame("Программа");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(52, 95, 758, 456);
+		frame.setVisible(true);
+		int y = 100;
+		int x = 100;
+		frame.setLocation(x, y);
+		JButton button = new JButton("Кнопка");
+		frame.add(button);
+		button.setVisible(true);
+		button.addActionListener(new ActionListener () {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame2 = new JFrame("программа2");
+				frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frame2.setVisible(true);
+				frame2.setBounds(90, 200, 500, 600);
+				JTextArea textArea = new JTextArea("пиши здесь");
+				frame2.add(textArea);
+				textArea.setVisible(true);
+				Scanner sc = new Scanner(System.in);
+				textArea.getSelectedText();
+			}
+		});
+	}
+}
