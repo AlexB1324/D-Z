@@ -1,0 +1,443 @@
+import javax.swing.*;
+
+
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+ 
+public class x_zero implements ActionListener {
+	
+	
+	int NamberOfButton=9;
+	JPanel panel;
+ 
+	JButton x_z[];
+	JButton button_new;
+	JButton button_exit;
+	
+	static Font ft = new Font("Arial",1,25);
+	
+	JLabel stat;
+	static JFrame frame;
+	//---------------------------------------------------------//
+	
+	x_zero()
+	{
+		
+		frame = new JFrame("Крестики нолики");
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		frame.getContentPane().setLayout(new BorderLayout());
+		frame.setSize(200, 250);	
+		
+		stat=new JLabel("Неизвестно");
+		
+		button_new = new JButton("Новая игра");
+		button_new.addActionListener(this);
+		
+		
+		button_exit=new JButton("Выход");
+		button_exit.addActionListener(this);
+		BorderLayout BL = new BorderLayout();
+		panel=new JPanel();
+		panel.setLayout(BL);
+	    panel.setBackground(Color.lightGray);
+	    //*****************************************//
+	    Color cl = new Color(230, 0, 0); 
+	    button_exit.setBackground(cl); 
+	    JPanel p_top=new JPanel();
+	    p_top.add(button_new);
+	    p_top.add(button_exit);
+	    panel.add(p_top,"North");
+	    
+	    JPanel p_center=new JPanel();
+	    GridLayout gr=new GridLayout(3,3);
+	    p_center.setLayout(gr);
+	    
+	    x_z=new JButton[9];
+	    for(int i=0;i<9;i++)
+	    {
+	    	x_z[i]=new JButton();
+	    	x_z[i].addActionListener(this);
+	    	x_z[i].setText("");
+	    	x_z[i].setFont(ft);
+	    	x_z[i].setBackground(Color.lightGray);
+	    	p_center.add(x_z[i]);
+	    }
+	    	    
+	    //*****************************************//
+	    panel.add(p_center,"Center");
+	    panel.add(stat,"South");    
+		
+		frame.setContentPane(panel);
+						
+		frame.setVisible(true);
+	}        
+	
+ 
+	
+	public static void main(String[] arg)
+	{
+		
+		x_zero x_ze=new x_zero();
+	}
+ 
+	//----------------------------------------//
+	
+	int hod=4;
+	
+	public void actionPerformed(ActionEvent e) 
+	{
+		if(e.getActionCommand().equals("Выход"))
+		{
+			System.exit(1);
+		}
+		if(e.getActionCommand().equals("Новая игра"))
+		{
+			for(int i=0;i<9;i++)
+		    {
+				x_z[i].setBackground(Color.lightGray);
+				//x_z[i].addActionListener(this);
+		    	x_z[i].setForeground(Color.black);
+		    	x_z[i].setText("");
+		    	x_z[i].setEnabled(true);
+		    	
+		    }
+		
+			stat.setText("Ваш ход!");
+			button_new.setEnabled(false);
+			//NamberOfButton=9;
+			hod=4;
+			return;
+			}
+		
+		//---------	
+		for(int i=0;i<9;i++)
+		{
+			if(e.getSource().equals(x_z[i]))
+			{
+					
+					x_z[i].setText("x");
+					x_z[i].setBackground(Color.green);
+				
+									
+					String s=lock_vinner();
+					if(s=="x")
+					{
+						
+						button_new.setEnabled(true);
+						stat.setText("Выиграл x");
+						end_game();
+						
+					}
+					else if(s=="o")
+					{
+					
+						button_new.setEnabled(true);
+						stat.setText("Выиграл о");
+						end_game();
+					}else
+					if(hod==0 && s=="")
+					{
+						stat.setText("Ничья");
+						end_game();
+					}
+					else
+					{
+						computer_move();
+						System.out.println("Ходил компьютер");
+						s=lock_vinner();
+						if(s=="o")
+						{
+						
+							button_new.setEnabled(true);
+							stat.setText("Выиграл о");
+							end_game();
+						}else
+						if(hod==0 && s=="")
+						{
+							stat.setText("Ничья");
+							end_game();
+						}
+					}					
+					hod--;}
+					
+			
+		}
+	}
+	//----------------------------------------//
+	//++++++++++++++++++++++++work+++++++++++++++++++++++++//
+	String vin_getter(String in)
+	{
+		if(in=="x")
+		return "Win player x";
+		else if(in=="o")
+			return "Win player o";
+		else if(in=="T")
+			return "Ничья";
+		else
+			return "error inner function";
+	}
+	String lock_vinner()
+	{
+		String vin="";
+		NamberOfButton--;
+		if(NamberOfButton==0)vin="T";
+		if(!x_z[0].getText().equals("") &&
+			x_z[0].getText().equals(x_z[1].getText()) &&
+			x_z[1].getText().equals(x_z[2].getText()))
+		{
+		vin=x_z[0].getText();	
+		}	
+		
+		if(!x_z[3].getText().equals("") &&
+				x_z[3].getText().equals(x_z[4].getText()) &&
+				x_z[4].getText().equals(x_z[5].getText()))
+			{
+			vin=x_z[3].getText();	
+			}
+		if(!x_z[6].getText().equals("") &&
+				x_z[6].getText().equals(x_z[7].getText()) &&
+				x_z[7].getText().equals(x_z[8].getText()))
+			{
+			vin=x_z[6].getText();	
+			}
+		if(!x_z[0].getText().equals("") &&
+				x_z[0].getText().equals(x_z[3].getText()) &&
+				x_z[3].getText().equals(x_z[6].getText()))
+			{
+			vin=x_z[0].getText();	
+			}	
+		if(!x_z[1].getText().equals("") &&
+				x_z[1].getText().equals(x_z[4].getText()) &&
+				x_z[4].getText().equals(x_z[7].getText()))
+			{
+			vin=x_z[1].getText();	
+			}
+		if(!x_z[2].getText().equals("") &&
+				x_z[2].getText().equals(x_z[5].getText()) &&
+				x_z[5].getText().equals(x_z[8].getText()))
+			{
+			vin=x_z[2].getText();	
+			}	
+		if(!x_z[0].getText().equals("") &&
+				x_z[0].getText().equals(x_z[4].getText()) &&
+				x_z[4].getText().equals(x_z[8].getText()))
+			{
+			vin=x_z[0].getText();	
+			}
+		if(!x_z[2].getText().equals("") &&
+				x_z[2].getText().equals(x_z[4].getText()) &&
+				x_z[4].getText().equals(x_z[6].getText()))
+			{
+			vin=x_z[2].getText();	
+			}	
+		
+		return vin;
+	}
+	//+++++++++++++++++++++++++++++++++++++++++++++++++//
+	void computer_move()
+	{
+		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		int st=0;
+		st=empty_pole("o");
+		System.out.println("****************************************");
+		System.out.println("empty pole 1 = "+st);
+		if(st==-1 || !x_z[st].getText().equals(""))
+		{
+			st=empty_pole("x");
+			System.out.println("****************************************");
+			System.out.println("empty pole 2 = "+st);
+		}
+		
+		if(st==-1|| !x_z[st].getText().equals(""))
+		{
+			if(x_z[0].getText().equals("x")&& hod>3)
+			{
+				st=8;
+			}else if(x_z[8].getText().equals("x")&& hod>3)
+			{
+				st=0;
+			}
+			else if(x_z[6].getText().equals("x")&& hod>3)
+			{
+				st=2;
+			}
+			else if(x_z[2].getText().equals("x")&& hod>3)
+			{
+				st=6;
+			}
+			else if(x_z[4].getText().equals("x")&&x_z[8].getText().equals(""))
+			{
+				st=8;
+			}
+			else if(x_z[4].getText().equals(""))
+			st=4;
+			else
+			st=rand_pole();
+			System.out.println("rend pole 3 = "+st);
+		}
+		if(st!=-1){
+			x_z[st].setText("o");
+			x_z[st].setBackground(Color.red);
+			x_z[st].setEnabled(false);
+		}
+		System.out.println("----------------------");
+	}
+	
+	
+	int rand_pole()
+	{
+		if(hod!=0){
+		int n;
+		boolean flak=true;
+		do{
+			n = (int)(Math.random()*9);
+			if(x_z[n].getText().equals(""))
+			flak=false;
+		}while(flak);
+		return n;}
+		else
+			return -1;
+	}
+	//+++++++++++++++++++++++++++++++++++++++++++++++++//
+	static int m[]= new int [9];
+	void set_mass()
+	{
+		for(int ii=0;ii<9;ii++)
+		{
+			if(x_z[ii].getText().equals("x")||x_z[ii].getText().equals("X"))
+				m[ii]=(int)1;
+			else if(x_z[ii].getText().equals("o"))
+				m[ii]=(int)-1;
+			else
+				m[ii]=(int)0;
+		}                       
+	}
+	//+++++++++++++++++++++++++++++++++++++++++++++++++//
+	int empty_pole(String player)
+	{
+		set_mass();
+		int n; // equals = 2,-2
+		if(player=="o")
+			n=-2;
+		else
+			n=2; 		//----------
+		System.out.println("****************************************");
+		System.out.println(" "+m[0]+" "+m[1]+" "+m[2]);
+		System.out.println(" "+m[3]+" "+m[4]+" "+m[5]);
+		System.out.println(" "+m[6]+" "+m[7]+" "+m[8]);
+		System.out.println("****************************************");
+		System.out.print("брабатываются случаи для ");
+		
+		if(n==2)
+			System.out.println("x: ");
+		else
+			System.out.println("o: ");
+		
+		if(m[0]+m[1]+m[2]==n)
+		{
+			System.out.println("1 2 3");
+			if(m[0]==0)
+				return 0;
+			if(m[1]==0)
+				return 1;
+			if(m[2]==0)
+				return 2;			
+		}
+		else if(m[3]+m[4]+m[5]==n)
+		{
+			System.out.println("4 5 6");
+			if(m[3]==0)
+				return 3;
+			if(m[4]==0)
+				return 4;
+			if(m[5]==0)
+				return 5;			
+		}
+		else if(m[6]+m[7]+m[8]==n)
+		{
+			System.out.println("7 8 9");
+			if(m[6]==0)
+				return 6;
+			if(m[7]==0)
+				return 7;
+			if(m[8]==0)
+				return 8;			
+		}
+		else if(m[0]+m[3]+m[6]==n)
+		{
+			System.out.println("1 4 7");
+			if(m[0]==0)
+				return 0;
+			if(m[3]==0)
+				return 3;
+			if(m[6]==0)
+				return 6;			
+		}
+		else if(m[1]+m[4]+m[7]==n)
+		{
+			System.out.println("2 5 8");
+			if(m[1]==0)
+				return 1;
+			if(m[4]==0)
+				return 4;
+			if(m[7]==0)
+				return 7;			
+		}
+		else if(m[2]+m[5]+m[8]==n)
+		{
+			System.out.println("3 6 9");
+			if(m[2]==0)
+				return 2;
+			if(m[5]==0)
+				return 5;
+			if(m[8]==0)
+				return 8;			
+		}
+		else if(m[0]+m[4]+m[8]==n)
+		{
+			System.out.println("1 5 9");
+			if(m[0]==0)
+				return 0;
+			if(m[4]==0)
+				return 4;
+			if(m[8]==0)
+				return 8;			
+		}
+		else if(m[6]+m[4]+m[2]==n)
+		{
+			System.out.println("7 5 3");
+			if(m[6]==0)
+				return 6;
+			if(m[4]==0)
+				return 4;
+			if(m[2]==0)
+				return 2;			
+		}
+		return -1;		
+	}
+	//+++++++++++++++++++++++++++++++++++++++++++++++++//
+	void end_game()
+	{	
+		for(int i=0;i<9;i++)
+		{
+			x_z[i].setEnabled(false);
+		}
+		button_new.setEnabled(true);
+		
+	}
+	//+++++++++++++++++++++++++++++++++++++++++++++++++//
+	void led_func(int a, int b, int c)
+	{
+			x_z[a].setForeground(Color.green);
+			x_z[b].setForeground(Color.green);
+			x_z[c].setForeground(Color.green);
+	}
+	
+	
+}
