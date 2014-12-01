@@ -1,0 +1,18 @@
+import java.util.ArrayList;
+
+public class new3 {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("home");
+        list.add("human");
+        list.add("wife");
+        list.add("dog");
+        list.add("jngiuenge");
+        System.out.println(list.size()+" ");
+        System.out.println(list.get(0));
+        System.out.println(list.get(1));
+        System.out.println(list.get(2));
+        System.out.println(list.get(3));
+        System.out.println(list.get(4));
+    }
+}
