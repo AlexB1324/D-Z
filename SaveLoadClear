@@ -1,0 +1,104 @@
+// 1
+import java.io.IOException;
+
+    public class Main {
+        public static void main(String[] args) {
+            Gui gui = new Gui();
+            try {
+                gui.makeGUI();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    // 2
+    import javax.swing.*;
+import java.awt.*;
+import java.io.IOException;
+
+public class Gui {
+    public void makeGUI() throws IOException {
+        JFrame frame = new JFrame("MyProga");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setBounds(100, 60, 520, 491);
+
+
+        JTextArea area = new JTextArea();
+        JPanel panel = new JPanel();
+        area.setBackground(Color.LIGHT_GRAY);
+
+        JButton btnLoad = new JButton("Load");
+       JButton btnClear = new JButton("Clear");
+        JButton btnSave = new JButton("Save");
+
+        panel.setLayout(new FlowLayout());
+        panel.setBackground(Color.blue);
+        panel.add(btnSave);
+        panel.add(btnClear);
+        panel.add(btnLoad);
+
+        Buttons load = new Buttons();
+        load.loadFromFile("file.txt", btnLoad, area);
+        load.saveToFile("file.txt", btnSave, area);
+        load.clearAreaAndFile("file.txt", btnClear, area);
+
+        frame.getContentPane().add(BorderLayout.CENTER, area);
+        frame.getContentPane().add(BorderLayout.SOUTH, panel);
+        frame.setVisible(true);
+    }
+}
+// 3
+import java.io.*;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Buttons {
+
+    public void clearAreaAndFile(final String fileName, JButton btnClear, final JTextArea area) throws FileNotFoundException {
+        btnClear.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    PrintWriter printWriter = new PrintWriter(fileName);
+                    area.setText("");
+                    printWriter.write("");
+                    printWriter.close();
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+    }
+    public void saveToFile(final String fileName, JButton btnSave, final JTextArea area) throws IOException {
+        btnSave.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
+                    area.write(writer);
+                    writer.close();
+                    area.requestFocus();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void loadFromFile(final String fileName, JButton btnLoad, final JTextArea area) throws IOException {
+        btnLoad.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    BufferedReader reader = new BufferedReader(new FileReader(fileName));
+                    area.read(reader, null);
+                    reader.close();
+                    area.requestFocus();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+    }
+}
